@@ -45,8 +45,8 @@ class Connection(object):
 
         self.serial.write(to_send)
 
-    def read(self):
-        result = self.serial.read(size=16)
+    def read(self, size):
+        result = self.serial.read(size=size)
         if len(result) == 0:
             raise NoResultException()
 

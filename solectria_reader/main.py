@@ -1,18 +1,21 @@
 import time
 
 import comms
+import emitter
 import metrics
 
 def main():
+    carbon_emitter = emitter.CarbonEmitter()
     with comms.Connection() as connection:
         while True:
-            start_time = time.time()
-            next_time = start_time + 1
+            next_time = time.time() + 1
 
             for each_metric in metrics.all_metrics:
                 value = each_metric.fetch(connection)
-                print each_metric.name, value
+                carbon_emitter.emit(each_metric, value)
+                print each_metric.name, value, each_metric.unit
 
+            print ''
             to_sleep = max(0, next_time - time.time())
             time.sleep(to_sleep)
 
