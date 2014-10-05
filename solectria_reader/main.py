@@ -11,7 +11,11 @@ def main():
             next_time = time.time() + 1
 
             for each_metric in metrics.all_metrics:
-                value = each_metric.fetch(connection)
+                try:
+                    value = each_metric.fetch(connection)
+                except Exception, e:
+                    print >> sys.stderr, each_metric.name, e
+                    continue
                 carbon_emitter.emit(each_metric, value)
                 print each_metric.name, value, each_metric.unit
 
