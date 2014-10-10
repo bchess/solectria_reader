@@ -93,7 +93,7 @@
           "type": "text",
           "id": 10,
           "mode": "html",
-          "content": "<div style=\"width: 100%; height:100%; text-align:center; position:absolute;\"> <div id=\"gauge\" style=\"width:200px; height:160px;display:inline-block;margin-top:50px;\"></div></div>\n<script>\n     g = new JustGage({\n        id: \"gauge\",\n        value: 0,             \n        min: 0,\n        max: 5000,\n        title: \"Watts\",\n        valueFontColor: \"white\"\n      });\n    function setGauge() {\n        $.getJSON(\"http://sun.bchess.org/render?format=json&from=-5min&target=solectria.Wac.Watts\", function(targets) {\n          if (targets.length > 0) {                                                                                                                \n              var datapoints = targets[0].datapoints;\n              var value = datapoints[datapoints.length - 1][0];\n              g.refresh(value, 5000);\n\n          }\n      })\n    }\n    setGauge();\n    setInterval(setGauge, 1000);\n</script>",
+          "content": "<div style=\"width: 100%; height:100%; text-align:center; position:absolute;\"> <div id=\"gauge\" style=\"width:200px; height:160px;display:inline-block;margin-top:50px;\"></div></div>\n<script>\n     g = new JustGage({\n        id: \"gauge\",\n        value: 0,             \n        min: 0,\n        max: 5000,\n        title: \"Watts\",\n        valueFontColor: \"white\"\n      });\n    function setGauge() {\n        $.getJSON(\"http://sun.bchess.org/render?format=json&from=-5sec&target=solectria.Wac.Watts\", function(targets) {\n          if (targets.length > 0) {                                                                                                                \n              var datapoints = targets[0].datapoints;\n              var value = datapoints[datapoints.length - 1][0];\n              g.refresh(value, 5000);\n\n          }\n      })\n    }\n    setGauge();\n    setInterval(setGauge, 1000);\n</script>",
           "style": {},
           "title": "-"
         }
@@ -298,10 +298,10 @@
           },
           "targets": [
             {
-              "target": "solectria.Htotal.Hours"
+              "target": "alias(removeBelowValue(solectria.Htotal.Hours, 1), \"Total Hours\")"
             },
             {
-              "target": "solectria.Wtotal.kWh"
+              "target": "alias(removeBelowValue(solectria.Wtotal.kWh, 1), \"Total kWh\")"
             }
           ],
           "aliasColors": {
@@ -310,6 +310,14 @@
           "seriesOverrides": [
             {
               "alias": "solectria.Wtotal.kWh",
+              "yaxis": 2
+            },
+            {
+              "alias": "removeBelowValue(solectria.Htotal.Hours, 1)",
+              "yaxis": 2
+            },
+            {
+              "alias": "Total kWh",
               "yaxis": 2
             }
           ],
